@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, FlatList } from "react-native";
 
 const usuarios = [
   {
@@ -14,18 +14,35 @@ const usuarios = [
 ];
 
 export default function Index() {
+
+  function Item({usuario}) {
+    return (
+      <View key={usuario.id} style={style.itemLista}>
+        <Text style={style.textoLista}>{usuario.nome}</Text>
+      </View>
+    );
+  }
+
+  function Cabecalho() {
+    return (
+      <Text style={{ fontSize: 30, fontWeight: 'bold', padding: 10, textAlign: 'center' }}>Lista de Usuários</Text>
+    )
+  }
+
+  function Rodape() {
+    return (
+      <Text style={{ fontSize: 20 }}>Total de usuários: {usuarios.length}</Text>
+    )
+  }
+
   return ( 
-    <View
-      style={style.container}
-    >
-      {
-        usuarios.map( item => (
-          <View style={style.itemLista}>
-            <Text style={style.textoLista}>{item.nome}</Text>
-          </View>
-        ))
-      }
-    </View>
+    <FlatList
+      data={usuarios}
+      renderItem={ ({item}) => <Item usuario={item}/> }
+      ListHeaderComponent={ () => <Cabecalho /> }
+      ListFooterComponent={ () => <Rodape />}
+      style={{ width: '100%' }}
+    />
   );
 }
 
@@ -41,7 +58,7 @@ const style = StyleSheet.create({
     width: '100%',
     padding: 10,
     marginBottom: 2,
-    backgroundColor: 'blue'
+    backgroundColor: '#aaaaaa'
   },
 
   textoLista: { 
